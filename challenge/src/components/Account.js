@@ -3,8 +3,8 @@ import '../stylesheets/Accounts.css'
 
 export default function Account() {
   return (
-    <div className='Accounts'>
+    <button className='Accounts'>
         Account
-    </div>
+    </button>
   )
 }
