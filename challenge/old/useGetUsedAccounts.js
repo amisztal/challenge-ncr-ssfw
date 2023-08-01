@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import Account from '../components/Account'
+/*import { useEffect, useState } from 'react'
 
 export function useGetUsedAccounts(accountIndex) {
   const [usedAccounts, setUsedAccounts] = useState(null)
@@ -30,7 +29,7 @@ export function useGetUsedAccounts(accountIndex) {
       .finally(() => setLoading(false))
   }, []);
 
-  /*
+  
   const usedAccountsStack = []
   let additionalButtons = 0
   if(acountsArray){
@@ -46,6 +45,7 @@ export function useGetUsedAccounts(accountIndex) {
       )
     }
   }
-  */
+  
   return { usedAccounts, loading, showNextButton} 
 }
+*/

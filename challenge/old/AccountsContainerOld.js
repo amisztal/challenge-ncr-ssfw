@@ -1,14 +1,23 @@
+
 import React, { useEffect, useState } from 'react'
 import '../stylesheets/AccountsContainer.css'
-import Account from './Account'
+import '../stylesheets/Accounts.css'
+import { Accounts } from './Accounts';
 import { useGetUsedAccounts }  from '../hooks/useGetUsedAccounts'
+import { getAccounts }  from '../js/api'
 
-export const AccountsContainer = () => {
-  let accountIndex=0
+export const AccountsContainerOld = () => {
+  const [accountIndex, setAccountIndex] = useState(0)
 
   const { usedAccounts, loading, showNextButton } = useGetUsedAccounts(accountIndex)
-
+  
   console.log(usedAccounts)
+  console.log(accountIndex)
+
+  useEffect(() => {
+
+  }, [])
+
   return (
     <div className='AccountsContainer'>
       {loading && <p>Loading...</p>}
@@ -29,13 +38,11 @@ export const AccountsContainer = () => {
         <Account
           key={6}
           tipoCuenta = {"Más opciones >>"}
-          onClick={goNext()}
+          indexAccount = {accountIndex}
+          onClick={(setAccountIndex)}
         />
       }
     </div>
   )
 
-  function goNext(){
-    console.log("hice click")
-  }
 }

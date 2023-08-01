@@ -1,7 +1,7 @@
 import './App.css';
-import { AccountsContainer } from './components/AccountsContainer';
 import { Header } from './components/Header';
 import { TitlesContainer } from './components/TitlesContainer';
+import { AccountsContainer } from './components/AccountsContainer';
 import { ExitButton } from './components/ExitButton';
 
 function App() {
