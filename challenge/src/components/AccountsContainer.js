@@ -7,24 +7,25 @@ import Account from './Account';
 export const AccountsContainer = () => {
   const [accounts, setAccounts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const pageSize = 5;
+  const pageSize = 4;
+  const [selectedAccount, setSelectedAccount] = useState(null);
 
   useEffect(() => {
     fetchAccounts();
   }, []);
 
   const fetchAccounts = async () => {
-    try {
-      const data = await getAccounts();
-      setAccounts(data);
-    } catch (error) {
-      console.error(error);
-    }
+    const data = await getAccounts();
+    setAccounts(data);
   };
 
   const getPageAccounts = () => {
-    const startIndex = currentPage * pageSize;
-    return accounts.slice(startIndex, startIndex + pageSize);
+    if(accounts.length===6) return accounts
+    if(currentPage===0) return accounts.slice(0, 5)
+    else{
+      const startIndex = currentPage * pageSize +1;
+      return accounts.slice(startIndex, startIndex + pageSize);
+    }
   };
 
   const handleNextPage = () => {
@@ -37,30 +38,54 @@ export const AccountsContainer = () => {
     }
   };
 
+  const handleAccountClick = (accountNumber) => {
+    const selectedAcc = accounts.find((account) => account.n === accountNumber);
+    setSelectedAccount(selectedAcc);
+  };
+
+  const handleBackToButtons = () => {
+    setSelectedAccount(null);
+  };
+
   return (
     <div>
-      {currentPage!=0 &&
-        <Account 
-          key={-1}
-          tipoCuenta = {"<< Opciones anteriores"}
-          onClick={handlePreviousPage}
-        />
-      }
-      {getPageAccounts().map((account, index) => (
-        <Account 
-          key={index}
-          tipoCuenta = {account.tipo_letras=="CC"?"Cuenta Corriente":"Cuenta de Ahorro"}
-          nroCuenta = {"Nro: "+account.n}
-          onClick={handlePreviousPage}
-        />
-      ))}
-      {(getPageAccounts().length >= pageSize) &&
-        <Account 
-          key={6}
-          tipoCuenta = {"Mas opciones >>"}
-          onClick={handleNextPage}
-        />
-      }
+      {selectedAccount?(
+        <>
+          <div>
+            <p>{"Saldo de la Cuenta: "+selectedAccount.saldo}</p>
+            <p>{"Tipo de la Cuenta: "+selectedAccount.tipo_letras==="CC"?"Cuenta Corrienteen ":"Caja de Ahorro en "}{selectedAccount.moneda==="$"?"Pesos":"Dolares"}</p>
+            <p>{"Nrto: "+selectedAccount.n}</p>
+          </div>
+        </>
+      ):(
+        <>
+          {currentPage!==0 &&
+            <Account 
+              key={-1}
+              tipoCuenta = {"<< Opciones anteriores"}
+              onClick={handlePreviousPage}
+            />
+          }
+          {getPageAccounts().map((account, index) => (
+            <Account 
+              key={index}
+              tipoCuenta = {account.tipo_letras==="CC"?"Cuenta Corriente":"Cuenta de Ahorro"}
+              nroCuenta = {"Nro: "+account.n}
+              onClick={() => handleAccountClick(account.n)}
+            />
+          ))}
+          {(accounts.length > 5+(currentPage*pageSize)) &&
+            <Account 
+              key={6}
+              tipoCuenta = {"Mas opciones >>"}
+              onClick={handleNextPage}
+            />
+          }
+        </>
+      )}
+      <div>
+        <button className='ExitButton' onClick={handleBackToButtons}>Salir</button>
+      </div>
     </div>
   );
 };
