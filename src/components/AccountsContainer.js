@@ -51,7 +51,7 @@ export const AccountsContainer = () => {
     <div>
       {selectedAccount?(
         <>
-          <div>
+          <div data-testid='account-details'>
             <p>{"Saldo de la Cuenta: "+selectedAccount.saldo}</p>
             <p>{"Tipo de la Cuenta: "+selectedAccount.tipo_letras==="CC"?"Cuenta Corrienteen ":"Caja de Ahorro en "}{selectedAccount.moneda==="$"?"Pesos":"Dolares"}</p>
             <p>{"Nrto: "+selectedAccount.n}</p>
@@ -60,31 +60,34 @@ export const AccountsContainer = () => {
       ):(
         <>
           {currentPage!==0 &&
-            <Account 
+            <Account
               key={-1}
               tipoCuenta = {"<< Opciones anteriores"}
               onClick={handlePreviousPage}
+              dataTestId='previous-page-button'
             />
           }
           {getPageAccounts().map((account, index) => (
-            <Account 
+            <Account
               key={index}
               tipoCuenta = {account.tipo_letras==="CC"?"Cuenta Corriente":"Cuenta de Ahorro"}
               nroCuenta = {"Nro: "+account.n}
               onClick={() => handleAccountClick(account.n)}
+              dataTestId='account-button' 
             />
           ))}
           {(accounts.length > 5+(currentPage*pageSize)) &&
-            <Account 
+            <Account
               key={6}
               tipoCuenta = {"Mas opciones >>"}
               onClick={handleNextPage}
+              dataTestId='next-page-button'
             />
           }
         </>
       )}
       <div>
-        <button className='ExitButton' onClick={handleBackToButtons}>Salir</button>
+        <button className='ExitButton' data-testid='exit-button' onClick={handleBackToButtons}>Salir</button>
       </div>
     </div>
   );

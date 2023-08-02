@@ -4,5 +4,6 @@ export const getAccounts = async () => {
   let fileteredData = data.cuentas.filter( account => {
     return ( (account.moneda === "$" || account.moneda === "u$s" ) && (account.tipo_letras === "CA" || account.tipo_letras === "CC" ) && account.n.replace(" ", "") )
   })
+  console.log(fileteredData)
   return fileteredData;
 };
